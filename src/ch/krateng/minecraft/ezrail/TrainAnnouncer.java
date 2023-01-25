@@ -27,10 +27,50 @@ import java.util.HashMap;
 
 public class TrainAnnouncer implements Listener {
 
-    public static EzRail plugin_instance;
 
-    // make sure we only get one announcement, even tho the event fires multiple times while going over a block
-    public static HashMap<RideableMinecart,Long> cooldown = new HashMap<>();
+
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onCartOverCopper(VehicleMoveEvent event, RideableMinecart cart, Block indicatorBlock, Sign sign) {
+
+        Location cartLocation = cart.getLocation();
+
+        String stationName = "";
+        Integer platform = 0;
+        String[] nextStops = {};
+        HashMap<Integer, String[]> otherConnections = new HashMap<>();
+
+        String[] sign_elements = signRead(sign);
+        if (sign_elements.length > 0) {
+            stationName = sign_elements[0];
+            platform = Integer.parseInt(sign_elements[1]);
+            if (sign_elements.length > 2) {
+                nextStops = sign_elements[2].split(",");
+            }
+
+            fullAnnounce(cart, stationName, platform, nextStops, otherConnections);
+        }
+
+
+
+
+        //announce(cart,infoBlock.toString());
+
+        //Block blockUnderCart = cartLocation.getBlock();
+        //Rails railUnderCart = (Rails) blockUnderCart.getState().getData();
+
+
+    }
+
+    private static String[] signRead(Sign sign) {
+        if (sign == null) {
+            return new String[0];
+        }
+        else {
+            String signtext = String.join("|", sign.getLines());
+            return signtext.split("\\|");
+        }
+    }
 
 
     private static void fullAnnounce(RideableMinecart cart,String station,Integer platform,String[] nextStops,HashMap<Integer, String[]> otherConnections) {
@@ -51,90 +91,6 @@ public class TrainAnnouncer implements Listener {
         }
     }
 
-    public TrainAnnouncer(EzRail instance)
-    {
-        plugin_instance = instance;
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onMyVehicleMove(VehicleMoveEvent event) {
-
-        Vehicle vehicle = event.getVehicle();
-        if (vehicle instanceof RideableMinecart) {
-            RideableMinecart cart = (RideableMinecart) vehicle;
-
-            Location cartLocation = cart.getLocation();
-            Block indicatorBlock = cartLocation.subtract(0,2,0).getBlock();
-
-            if (indicatorBlock.getType() == Material.COPPER_BLOCK || indicatorBlock.getType() == Material.EXPOSED_COPPER) {
-
-                Long now = System.currentTimeMillis();
-
-                if (cooldown.containsKey(cart) && cooldown.get(cart) > (now - 3000)) {
-                    return;
-                }
-
-                // save to cooldown map to avoid double messages
-                cooldown.put(cart,now);
-
-
-
-                Location moveFrom = event.getFrom();
-                Location moveTo = event.getTo();
-                Vector train_direction = moveTo.toVector().subtract(moveFrom.toVector()).normalize();
-
-                BlockFace signFace = null;
-
-                if (train_direction.getX() > 0.6) {
-                    signFace = BlockFace.WEST;
-                } else if (train_direction.getX() < -0.6) {
-                    signFace = BlockFace.EAST;
-                } else if (train_direction.getZ() > 0.6) {
-                    signFace = BlockFace.NORTH;
-                } else if (train_direction.getZ() < -0.6) {
-                    signFace = BlockFace.SOUTH;
-                }
-
-                Block infoBlock = indicatorBlock.getRelative(signFace);
-                if (infoBlock.getState() instanceof Sign) {
-                    Sign sign = (Sign) infoBlock.getState();
-                    String signtext = String.join("|",sign.getLines());
-                    String[] signelements = signtext.split("\\|");
-
-                    String stationName = "";
-                    Integer platform = 0;
-                    String[] nextStops = {};
-                    HashMap<Integer, String[]> otherConnections = new HashMap<>();
-
-                    stationName = signelements[0];
-                    platform = Integer.parseInt(signelements[1]);
-                    if (signelements.length > 2) {
-                        nextStops = signelements[2].split(",");
-                    }
-
-
-                    fullAnnounce(cart, stationName, platform, nextStops, otherConnections);
-
-                }
-                else {
-                    // REMOVE
-                    //announce(cart,"This is not a sign!");
-                    //announce(cart, infoBlock.toString());
-                }
-
-                //announce(cart,infoBlock.toString());
-
-                //Block blockUnderCart = cartLocation.getBlock();
-                //Rails railUnderCart = (Rails) blockUnderCart.getState().getData();
-
-
-            }
-
-
-        }
-
-
-    }
 
     private static void announce(RideableMinecart cart, String text, Boolean actionBar) {
         Player player = (Player) cart.getPassengers().get(0);
