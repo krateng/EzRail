@@ -1,0 +1,4 @@
+name: EzRail
+main: ch.krateng.minecraft.ezrail.EzRail
+version: 0.1.0
+api-version: 1.13
