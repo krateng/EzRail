@@ -6,6 +6,7 @@ public class EzRail extends JavaPlugin {
 
     public final EzRailListener railListener = new EzRailListener(this);
 
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this.railListener, this);
