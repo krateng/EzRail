@@ -1,11 +1,9 @@
 package ch.krateng.minecraft.ezrail;
 
-import jdk.jshell.execution.Util;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;

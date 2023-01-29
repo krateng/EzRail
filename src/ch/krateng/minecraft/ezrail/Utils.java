@@ -1,22 +1,18 @@
 package ch.krateng.minecraft.ezrail;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rail;
-import org.bukkit.material.Rails;
 import org.bukkit.util.Vector;
 import org.bukkit.entity.minecart.RideableMinecart;
 
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.logging.Logger;
 
 

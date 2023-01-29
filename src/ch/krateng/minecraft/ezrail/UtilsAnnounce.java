@@ -1,8 +1,5 @@
 package ch.krateng.minecraft.ezrail;
 
-
-import org.bukkit.event.Listener;
-
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.RideableMinecart;
 
@@ -13,7 +10,6 @@ import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class UtilsAnnounce {
