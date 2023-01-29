@@ -38,7 +38,7 @@ public class EzRailListener implements Listener {
             Block indicatorBlock = cartLocation.subtract(0, 2, 0).getBlock();
 
             // plugin only ever handles events when there's a copper block
-            if (Utils.validCommandBlock(indicatorBlock)) {
+            if (UtilsRails.validCommandBlock(indicatorBlock)) {
 
                 // filter out repeating events
                 Long now = System.currentTimeMillis();
@@ -54,8 +54,8 @@ public class EzRailListener implements Listener {
                 Location moveTo = event.getTo();
                 Vector train_direction = moveTo.toVector().subtract(moveFrom.toVector());
 
-                BlockFace fromDirection = Utils.getOriginDirection(train_direction);
-                Sign sign = Utils.getSignInfo(indicatorBlock, fromDirection);
+                BlockFace fromDirection = UtilsRails.getOriginDirection(train_direction);
+                Sign sign = UtilsSigns.getSignInfo(indicatorBlock, fromDirection);
 
                 // PRIMARY CONTROL BLOCK
                 if (sign != null) {
@@ -65,7 +65,7 @@ public class EzRailListener implements Listener {
                 else {
 
                     // Find associated sign
-                    Sign primarySign = Utils.getNextControlSign(cart, train_direction, EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK);
+                    Sign primarySign = UtilsRails.getNextControlSign(cart, train_direction, EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK);
 
                     // this is indeed the beginning of a station zone
                     if (primarySign != null) {
@@ -74,10 +74,10 @@ public class EzRailListener implements Listener {
                         if (CartHoldingTask.handledCarts.contains(cart)) {
                         }
                         else {
-                            SignInfo info = Utils.extractSignInfo(primarySign);
+                            SignInfo info = UtilsSigns.extractSignInfo(primarySign);
 
                             // Find other destinations
-                            HashMap<Integer,String[]> otherConnections = Utils.getOtherPlatformDestinations(primarySign.getBlock(),info.station);
+                            HashMap<Integer,String[]> otherConnections = UtilsRails.getOtherPlatformDestinations(primarySign.getBlock(),info.station);
                             // Make announcement
                             UtilsAnnounce.announceIncoming(cart, info.station, info.platform, info.nextStops, otherConnections);
                             BukkitTask task = new CartHoldingTask(info.station,cart,fromDirection,primarySign.getBlock())

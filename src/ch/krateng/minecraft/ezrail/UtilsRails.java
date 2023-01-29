@@ -16,50 +16,10 @@ import java.util.HashSet;
 import java.util.logging.Logger;
 
 
-public class Utils {
+public class UtilsRails {
 
 
-    public static SignInfo extractSignInfo(Sign sign) {
 
-        String[] signElements = signRead(sign);
-
-        SignInfo result = new SignInfo();
-
-        if (signElements.length > 0) {
-            result.station = signElements[0];
-            result.platform = Integer.parseInt(signElements[1]);
-            if (signElements.length > 2) {
-                result.nextStops = signElements[2].split(",");
-            }
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-
-
-    public static Sign getSignInfo(Block block, BlockFace face) {
-
-        Block infoBlock = block.getRelative(face);
-        Sign sign = null;
-        if (infoBlock.getState() instanceof Sign) {
-            sign = (Sign) infoBlock.getState();
-        }
-
-        return sign;
-
-    }
-
-    public static String[] signRead(Sign sign) {
-        if (sign == null) {
-            return new String[0];
-        }
-        else {
-            String signText = String.join("|", sign.getLines());
-            return signText.split("\\|");
-        }
-    }
 
 
     public static Sign getNextControlSign(RideableMinecart cart, Vector cartDirection, int limitDistance) {
@@ -77,7 +37,7 @@ public class Utils {
             Block indicatorBlock = nextRailSegment.getRelative(0,-2,0);
 
             if (EnumSet.of(Material.COPPER_BLOCK, Material.EXPOSED_COPPER, Material.OXIDIZED_COPPER).contains(indicatorBlock.getType())) {
-                Sign potentialSign = getSignInfo(indicatorBlock,comingFrom);
+                Sign potentialSign = UtilsSigns.getSignInfo(indicatorBlock,comingFrom);
                 if (potentialSign != null) {
                     return potentialSign;
                 }
@@ -235,10 +195,10 @@ public class Utils {
     }
     public static Boolean validPrimaryCommandBlock(Block testBlock) {
         if (validCommandBlock(testBlock)) {
-            if (getSignInfo(testBlock, BlockFace.EAST) != null) return true;
-            if (getSignInfo(testBlock, BlockFace.WEST) != null) return true;
-            if (getSignInfo(testBlock, BlockFace.NORTH) != null) return true;
-            if (getSignInfo(testBlock, BlockFace.SOUTH) != null) return true;
+            if (UtilsSigns.getSignInfo(testBlock, BlockFace.EAST) != null) return true;
+            if (UtilsSigns.getSignInfo(testBlock, BlockFace.WEST) != null) return true;
+            if (UtilsSigns.getSignInfo(testBlock, BlockFace.NORTH) != null) return true;
+            if (UtilsSigns.getSignInfo(testBlock, BlockFace.SOUTH) != null) return true;
         }
         return false;
     }
@@ -263,7 +223,7 @@ public class Utils {
                     if (validCommandBlock(testblock) && !alreadyFound.contains(testblock)) {
                         //logger.info("Valid block" + loc_x + "/" + loc_y + "/" + loc_z + "/");
                         for (BlockFace face : new BlockFace[]{BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH}) {
-                            Sign signInfo = getSignInfo(testblock,face);
+                            Sign signInfo = UtilsSigns.getSignInfo(testblock,face);
                             if (signInfo != null) {
                                 alreadyFound.add(testblock);
                                 alreadyFound.addAll(getCommandBlocksInArea(testblock,alreadyFound));
@@ -284,9 +244,9 @@ public class Utils {
         HashMap<Integer, String[]> destinations = new HashMap<>();
         for (Block cmdBlock : cmdBlocks) {
             for (BlockFace face : new BlockFace[]{BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH}) {
-                Sign signInfo = getSignInfo(cmdBlock,face);
+                Sign signInfo = UtilsSigns.getSignInfo(cmdBlock,face);
                 if (signInfo != null) {
-                    SignInfo info = extractSignInfo(signInfo);
+                    SignInfo info = UtilsSigns.extractSignInfo(signInfo);
                     if (info.station.equals(station)) {
                         destinations.put(info.platform,info.nextStops);
                     }
