@@ -2,27 +2,46 @@ package ch.krateng.minecraft.ezrail;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.block.Sign;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UtilsSigns {
 
     public static SignInfo extractSignInfo(Sign sign) {
 
-        String[] signElements = signRead(sign);
-
-        SignInfo result = new SignInfo();
-
-        if (signElements.length > 0) {
-            result.station = signElements[0];
-            result.platform = Integer.parseInt(signElements[1]);
-            if (signElements.length > 2) {
-                result.nextStops = signElements[2].split(",");
-            }
-            return result;
-        }
-        else {
+        if (sign == null) {
             return null;
         }
+
+        SignInfo result = new SignInfo();
+        LinkedList<String> nextStops = new LinkedList<>();
+
+        WallSign sign2 = (WallSign) sign.getBlockData();
+        result.direction = sign2.getFacing().getOppositeFace();
+
+
+        String[] lines = sign.getLines();
+        for (String line : lines) {
+            if (line == lines[0]) {
+                String[] elements = lines[0].split("\\|");
+                result.station = elements[0];
+                result.platform = Integer.parseInt(elements[1]);
+            }
+            else {
+                Collections.addAll(nextStops, line.split(","));
+
+            }
+        }
+
+        nextStops.removeIf(item -> item == null || "".equals(item));
+        result.nextStops = nextStops.toArray(result.nextStops);
+
+        return result;
     }
 
 

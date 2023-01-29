@@ -82,7 +82,7 @@ public class EzRailListener implements Listener {
                             HashMap<Integer,String[]> otherConnections = UtilsRails.getOtherPlatformDestinations(primarySign.getBlock(),info.station);
                             // Make announcement
                             UtilsAnnounce.announceIncoming(cart, info.station, info.platform, info.nextStops, otherConnections);
-                            BukkitTask task = new CartHoldingTask(info.station,cart,fromDirection,primarySign.getBlock())
+                            BukkitTask task = new CartHoldingTask(info.station,cart,info.direction.getOppositeFace(),primarySign.getBlock())
                                     .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
                         }
                     }
@@ -133,7 +133,7 @@ public class EzRailListener implements Listener {
                     }
                 }
 
-            }.runTaskLater(plugin_instance, 15);
+            }.runTaskLater(plugin_instance, 5);
 
 
 
