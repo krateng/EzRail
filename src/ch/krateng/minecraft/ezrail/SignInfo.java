@@ -2,7 +2,7 @@ package ch.krateng.minecraft.ezrail;
 
 public class SignInfo {
     String station;
-    Integer platform;
+    int platform;
     String[] nextStops = {};
 
     public SignInfo() {

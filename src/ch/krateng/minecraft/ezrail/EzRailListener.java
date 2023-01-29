@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.Rail;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
@@ -65,7 +67,7 @@ public class EzRailListener implements Listener {
                 else {
 
                     // Find associated sign
-                    Sign primarySign = UtilsRails.getNextControlSign(cart, train_direction, EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK);
+                    Sign primarySign = UtilsRails.getNextControlSign(cart, train_direction, EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK, false);
 
                     // this is indeed the beginning of a station zone
                     if (primarySign != null) {
@@ -94,15 +96,46 @@ public class EzRailListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onMyVehicleEnter(VehicleEnterEvent event) {
+        // CAREFUL: The cart has no passenger at the time of this event firing!
         Vehicle vehicle = event.getVehicle();
+
         if (vehicle instanceof RideableMinecart) {
             RideableMinecart cart = (RideableMinecart) vehicle;
 
-            Location cartLocation = cart.getLocation();
 
-            // here we just want to know if we're in a station and the plugin needs to take over
+
+            Location cartLocation = cart.getLocation();
+            Rail rail = (Rail) cartLocation.getBlock().getBlockData();
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    //plugin_instance.getServer().broadcastMessage("Your block is " + rail.toString());
+
+                    for (BlockFace face : new BlockFace[]{BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH}) {
+                        Sign sign = UtilsRails.getNextControlSign(cart, face.getDirection(), EzRailConfig.MAX_DISTANCE_STATION_BEGIN, false);
+                        Sign sign_reverse = UtilsRails.getNextControlSign(cart, face.getDirection(), EzRailConfig.MAX_DISTANCE_STATION_BEGIN, true);
+                        //UtilsAnnounce.announce(cart, "Next ctrl sign in direction " + face + " is " + sign);
+                        if (sign != null) {
+                            SignInfo info = UtilsSigns.extractSignInfo(sign);
+                            BukkitTask task = new CartHoldingTask(info.station,cart,face.getOppositeFace(),sign.getBlock(),true)
+                                    .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
+
+                        } else if (sign_reverse != null) {
+                            SignInfo info = UtilsSigns.extractSignInfo(sign_reverse);
+                            BukkitTask task = new CartHoldingTask(info.station,cart,face,sign_reverse.getBlock(),true)
+                                    .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
+                        }
+
+
+                    }
+                }
+
+            }.runTaskLater(plugin_instance, 15);
+
+
 
         }
     }

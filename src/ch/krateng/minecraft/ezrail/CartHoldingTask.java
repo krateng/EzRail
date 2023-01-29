@@ -45,9 +45,23 @@ public class CartHoldingTask extends BukkitRunnable  {
         this.cartStatus = CartStatus.INCOMING;
     }
 
+    public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock, boolean startAtStation) {
+        this(station,target_cart,fromDirection,stationControlBlock);
+        if (startAtStation) {
+            this.cartStatus = CartStatus.WAITING;
+            this.secondsToDeparture = EzRailConfig.STATION_WAIT_TIME_NEW;
+            this.defaultSpeed = 2;
+        }
+    }
+
 
     @Override
     public void run() {
+        if (target_cart == null || target_cart.isEmpty()) {
+            this.cancel();
+            handledCarts.remove(target_cart);
+        }
+
         try {
             // cart has entered station zone, but not station
             if (cartStatus == CartStatus.INCOMING) {
@@ -81,11 +95,11 @@ public class CartHoldingTask extends BukkitRunnable  {
             // cart is waiting at station
             else if (cartStatus == CartStatus.WAITING) {
 
-                if (secondsToDeparture > 4) {
+                if (secondsToDeparture > EzRailConfig.STATION_DEPART_WARNING_TIME) {
                     UtilsAnnounce.announce(target_cart,"At " + UtilsAnnounce.stationName(station),true);
                 }
                 else if (secondsToDeparture > 0) {
-                    UtilsAnnounce.announce(target_cart,"Departing " + UtilsAnnounce.stationName(station) + " in " + (int) secondsToDeparture,true);
+                    UtilsAnnounce.announce(target_cart,"Departing " + UtilsAnnounce.stationName(station) + " in " + Math.ceil(secondsToDeparture),true);
                 }
                 else {
                     cartStatus = CartStatus.LEAVING;
@@ -102,6 +116,7 @@ public class CartHoldingTask extends BukkitRunnable  {
                 double newSpeed = (distance / EzRailConfig.MAX_DISTANCE_STATION_BEGIN) * defaultSpeed;
                 double relativeSpeed = newSpeed / target_cart.getVelocity().length();
                 if (relativeSpeed > 1) {
+                    relativeSpeed = Math.min(relativeSpeed,1.2);
                     //UtilsAnnounce.announce(target_cart, "Speeding up to " + newSpeed + "(" + relativeSpeed + ")");
                     target_cart.setVelocity(target_cart.getVelocity().multiply(relativeSpeed));
                 }
@@ -112,6 +127,11 @@ public class CartHoldingTask extends BukkitRunnable  {
                     handledCarts.remove(target_cart);
                 }
 
+            }
+
+            else {
+                this.cancel();
+                handledCarts.remove(target_cart);
             }
 
         }

@@ -22,13 +22,13 @@ public class UtilsRails {
 
 
 
-    public static Sign getNextControlSign(RideableMinecart cart, Vector cartDirection, int limitDistance) {
+    public static Sign getNextControlSign(RideableMinecart cart, Vector cartDirection, int limitDistance, boolean reverseDirection) {
 
         Location cartLocation = cart.getLocation();
         Block nextRailSegment = cartLocation.getBlock();
         BlockFace comingFrom = getOriginDirection(cartDirection);
 
-        int i = EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK;
+        int i = limitDistance;
         while (i>0) {
 
             i--;
@@ -36,10 +36,20 @@ public class UtilsRails {
             Rail rail = (Rail) nextRailSegment.getBlockData();
             Block indicatorBlock = nextRailSegment.getRelative(0,-2,0);
 
-            if (EnumSet.of(Material.COPPER_BLOCK, Material.EXPOSED_COPPER, Material.OXIDIZED_COPPER).contains(indicatorBlock.getType())) {
-                Sign potentialSign = UtilsSigns.getSignInfo(indicatorBlock,comingFrom);
-                if (potentialSign != null) {
-                    return potentialSign;
+            if (validCommandBlock(indicatorBlock)) {
+                Sign potentialSign;
+                if (reverseDirection) {
+                    potentialSign = UtilsSigns.getSignInfo(indicatorBlock,comingFrom.getOppositeFace());
+                    if (potentialSign != null) {
+                        return potentialSign;
+                    }
+                }
+                else {
+                    potentialSign = UtilsSigns.getSignInfo(indicatorBlock,comingFrom);
+                    if (potentialSign != null) {
+                        return potentialSign;
+                    }
+
                 }
             }
 

@@ -21,7 +21,7 @@ public class UtilsAnnounce {
         return ChatColor.DARK_GREEN + name + ChatColor.RESET;
     }
 
-    public static void announceIncoming(RideableMinecart cart, String station, Integer platform, String[] nextStops, HashMap<Integer, String[]> otherConnections) {
+    public static void announceIncoming(RideableMinecart cart, String station, int platform, String[] nextStops, HashMap<Integer, String[]> otherConnections) {
 
         announce(cart,"You are arriving at " + stationName(station) + ".");
         //announce(cart,"Arriving at " + stationName(station), true);
@@ -52,15 +52,22 @@ public class UtilsAnnounce {
 
 
     public static void announce(RideableMinecart cart, String text, Boolean actionBar) {
-        Player player = (Player) cart.getPassengers().get(0);
-        TextComponent txt = new TextComponent(text);
+        try {
+            Player player = (Player) cart.getPassengers().get(0);
+            TextComponent txt = new TextComponent(text);
 
-        if (actionBar) {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, txt);
+            if (actionBar) {
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, txt);
+            }
+            else {
+                player.spigot().sendMessage(ChatMessageType.SYSTEM, txt);
+            }
         }
-        else {
-            player.spigot().sendMessage(ChatMessageType.SYSTEM, txt);
+        catch (IndexOutOfBoundsException e) {
+            return;
         }
+
+
 
 
     }
