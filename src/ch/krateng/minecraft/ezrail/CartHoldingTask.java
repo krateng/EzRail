@@ -99,7 +99,7 @@ public class CartHoldingTask extends BukkitRunnable  {
                     UtilsAnnounce.announce(target_cart,"At " + UtilsAnnounce.stationName(station),true);
                 }
                 else if (secondsToDeparture > 0) {
-                    UtilsAnnounce.announce(target_cart,"Departing " + UtilsAnnounce.stationName(station) + " in " + Math.ceil(secondsToDeparture),true);
+                    UtilsAnnounce.announce(target_cart,"Departing " + UtilsAnnounce.stationName(station) + " in " + (int) Math.ceil(secondsToDeparture),true);
                 }
                 else {
                     cartStatus = CartStatus.LEAVING;

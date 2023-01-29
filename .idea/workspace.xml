@@ -9,15 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Split up Utils">
+    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="K/DA, Twice and (G)I-DLE make for a good coding session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/SignInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/SignInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsRails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsRails.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674961813227</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="K/DA, Twice and (G)I-DLE make for a good coding session">
+      <created>1674967454204</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1674967454204</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -132,6 +134,7 @@
     <MESSAGE value="Factored out configuration values" />
     <MESSAGE value="Removed unused imports" />
     <MESSAGE value="Split up Utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="Split up Utils" />
+    <MESSAGE value="K/DA, Twice and (G)I-DLE make for a good coding session" />
+    <option name="LAST_COMMIT_MESSAGE" value="K/DA, Twice and (G)I-DLE make for a good coding session" />
   </component>
 </project>
