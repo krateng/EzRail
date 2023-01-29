@@ -17,9 +17,7 @@ public class UtilsAnnounce {
     public static String stationName(String name) {
         return ChatColor.GREEN + name + ChatColor.RESET;
     }
-    public static String stationNameSecondary(String name) {
-        return ChatColor.DARK_GREEN + name + ChatColor.RESET;
-    }
+
 
     public static void announceIncoming(RideableMinecart cart, String station, int platform, String[] nextStops, HashMap<Integer, String[]> otherConnections) {
 
@@ -39,9 +37,6 @@ public class UtilsAnnounce {
             announce(cart,String.join(", ",otherConnectionsStrings));
         }
 
-
-        else {
-        }
         if (nextStops.length > 0) {
             announce(cart, "This train will continue to " + String.join(", ",nextStops) + ".");
         }
@@ -63,8 +58,8 @@ public class UtilsAnnounce {
                 player.spigot().sendMessage(ChatMessageType.SYSTEM, txt);
             }
         }
-        catch (IndexOutOfBoundsException e) {
-            return;
+        catch (IndexOutOfBoundsException ignored) {
+
         }
 
 
