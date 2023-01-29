@@ -1,6 +1,6 @@
 ## How to use
 
-* Define a station platform by putting a copper block two blocks underneath the rail, then adding a sign in the direction of travel with the following content:
+Define a station platform by putting a copper block two blocks underneath the rail, then adding a sign in the direction of travel with the following content:
 
 ```
 Station Name|Platform Number
