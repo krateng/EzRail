@@ -11,6 +11,7 @@ import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -18,6 +19,7 @@ import org.bukkit.util.Vector;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+
 
 public class EzRailListener implements Listener {
 
@@ -67,7 +69,7 @@ public class EzRailListener implements Listener {
                 else {
 
                     // Find associated sign
-                    Sign primarySign = Utils.getNextControlSign(cart, train_direction);
+                    Sign primarySign = Utils.getNextControlSign(cart, train_direction, EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK);
 
                     // this is indeed the beginning of a station zone
                     if (primarySign != null) {
@@ -83,7 +85,7 @@ public class EzRailListener implements Listener {
                             // Make announcement
                             UtilsAnnounce.announceIncoming(cart, info.station, info.platform, info.nextStops, otherConnections);
                             BukkitTask task = new CartHoldingTask(info.station,cart,fromDirection,primarySign.getBlock())
-                                    .runTaskTimer(plugin_instance,2,CartHoldingTask.TICKS_PER_CONTROL_TICK);
+                                    .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
                         }
                     }
 
@@ -93,6 +95,19 @@ public class EzRailListener implements Listener {
 
 
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onMyVehicleEnter(VehicleEnterEvent event) {
+        Vehicle vehicle = event.getVehicle();
+        if (vehicle instanceof RideableMinecart) {
+            RideableMinecart cart = (RideableMinecart) vehicle;
+
+            Location cartLocation = cart.getLocation();
+
+            // here we just want to know if we're in a station and the plugin needs to take over
+
         }
     }
 

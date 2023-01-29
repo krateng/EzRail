@@ -65,15 +65,14 @@ public class Utils {
         }
     }
 
-    private static int MAX_DISTANCE_SECONDARY_CONTROL_BLOCK = 50;
 
-    public static Sign getNextControlSign(RideableMinecart cart, Vector cartDirection) {
+    public static Sign getNextControlSign(RideableMinecart cart, Vector cartDirection, int limitDistance) {
 
         Location cartLocation = cart.getLocation();
         Block nextRailSegment = cartLocation.getBlock();
         BlockFace comingFrom = getOriginDirection(cartDirection);
 
-        int i = MAX_DISTANCE_SECONDARY_CONTROL_BLOCK;
+        int i = EzRailConfig.MAX_DISTANCE_SECONDARY_CONTROL_BLOCK;
         while (i>0) {
 
             i--;
@@ -248,14 +247,12 @@ public class Utils {
         return false;
     }
 
-    private static int[] MAX_DISTANCE_PLATFORMS = {8,1,8};
-
     public static final Logger logger = Logger.getLogger("Minecraft");
 
     public static HashSet<Block> getCommandBlocksInArea(Block originBlock, HashSet<Block> alreadyFound) {
-        int[] range_x = {originBlock.getX()-MAX_DISTANCE_PLATFORMS[0], originBlock.getX()+MAX_DISTANCE_PLATFORMS[0]};
-        int[] range_y = {originBlock.getY()-MAX_DISTANCE_PLATFORMS[1], originBlock.getY()+MAX_DISTANCE_PLATFORMS[1]};
-        int[] range_z = {originBlock.getZ()-MAX_DISTANCE_PLATFORMS[2], originBlock.getZ()+MAX_DISTANCE_PLATFORMS[2]};
+        int[] range_x = {originBlock.getX()-EzRailConfig.MAX_DISTANCE_PLATFORMS[0], originBlock.getX()+EzRailConfig.MAX_DISTANCE_PLATFORMS[0]};
+        int[] range_y = {originBlock.getY()-EzRailConfig.MAX_DISTANCE_PLATFORMS[1], originBlock.getY()+EzRailConfig.MAX_DISTANCE_PLATFORMS[1]};
+        int[] range_z = {originBlock.getZ()-EzRailConfig.MAX_DISTANCE_PLATFORMS[2], originBlock.getZ()+EzRailConfig.MAX_DISTANCE_PLATFORMS[2]};
 
         World world = originBlock.getWorld();
         if (alreadyFound == null) {

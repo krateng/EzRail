@@ -9,17 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Refactor">
-      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/SignInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/Utils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" afterDir="false" />
+    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Fixed everything">
+      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/TrainAnnouncer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/TrainController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +80,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674624851449</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed everything">
+      <created>1674960780666</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1674960780666</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -102,6 +104,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor" />
+    <MESSAGE value="Fixed everything" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed everything" />
   </component>
 </project>

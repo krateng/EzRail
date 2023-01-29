@@ -25,7 +25,6 @@ public class CartHoldingTask extends BukkitRunnable  {
 
     private String station;
     private RideableMinecart target_cart;
-    private Integer repetitions;
     private BlockFace fromDirection;
     private CartStatus cartStatus;
     private Block stationControlBlock;
@@ -34,9 +33,7 @@ public class CartHoldingTask extends BukkitRunnable  {
     private double secondsToDeparture;
 
     public static Set<RideableMinecart> handledCarts = new HashSet<>();
-    public static int TICKS_PER_CONTROL_TICK = 2;
-    public static int STATION_DISTANCE = 5;
-    public static int WAITING_TIME = 5;
+
 
     public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock) {
         this.station = station;
@@ -57,7 +54,7 @@ public class CartHoldingTask extends BukkitRunnable  {
             // cart has entered station zone, but not station
             if (cartStatus == CartStatus.INCOMING) {
                 // just check if we're close enough for next status
-                if (stationControlRail.getLocation().distance(target_cart.getLocation()) < STATION_DISTANCE) {
+                if (stationControlRail.getLocation().distance(target_cart.getLocation()) < EzRailConfig.MAX_DISTANCE_STATION_BEGIN) {
                     cartStatus = CartStatus.ARRIVING;
                     defaultSpeed = target_cart.getVelocity().length();
                     //UtilsAnnounce.announce(target_cart,"Switch to ARRIVING, noted default speed is " + defaultSpeed);
@@ -70,7 +67,7 @@ public class CartHoldingTask extends BukkitRunnable  {
                 double distance = stationControlRail.getLocation().distance(target_cart.getLocation());
 
                 // linear slowdown from entry to primary block
-                double newSpeed = (distance / STATION_DISTANCE) * defaultSpeed;
+                double newSpeed = (distance / EzRailConfig.MAX_DISTANCE_STATION_BEGIN) * defaultSpeed;
                 double relativeSpeed = newSpeed / target_cart.getVelocity().length();
                 //UtilsAnnounce.announce(target_cart, "Slowing down to " + newSpeed + "(" + relativeSpeed + ")");
                 target_cart.setVelocity(target_cart.getVelocity().multiply(relativeSpeed));
@@ -79,7 +76,7 @@ public class CartHoldingTask extends BukkitRunnable  {
                     // we have reached the central control block
                     target_cart.setVelocity(target_cart.getVelocity().multiply(0));
                     cartStatus = CartStatus.WAITING;
-                    secondsToDeparture = (double) WAITING_TIME;
+                    secondsToDeparture = (double) EzRailConfig.STATION_WAIT_TIME;
                 }
 
             }
@@ -97,21 +94,21 @@ public class CartHoldingTask extends BukkitRunnable  {
                     // initial nudge just to get the direction right
                     target_cart.setVelocity(fromDirection.getDirection().multiply(-0.1));
                 }
-                secondsToDeparture = secondsToDeparture - ((double) TICKS_PER_CONTROL_TICK/ 20.0);
+                secondsToDeparture = secondsToDeparture - ((double) EzRailConfig.TICKS_PER_CONTROL_TICK / 20.0);
             }
             // cart is leaving
             else if (cartStatus == CartStatus.LEAVING) {
                 UtilsAnnounce.announce(target_cart,"Departing " + UtilsAnnounce.stationName(station),true);
 
                 double distance = stationControlRail.getLocation().distance(target_cart.getLocation());
-                double newSpeed = (distance / STATION_DISTANCE) * defaultSpeed;
+                double newSpeed = (distance / EzRailConfig.MAX_DISTANCE_STATION_BEGIN) * defaultSpeed;
                 double relativeSpeed = newSpeed / target_cart.getVelocity().length();
                 if (relativeSpeed > 1) {
                     //UtilsAnnounce.announce(target_cart, "Speeding up to " + newSpeed + "(" + relativeSpeed + ")");
                     target_cart.setVelocity(target_cart.getVelocity().multiply(relativeSpeed));
                 }
 
-                if (distance > STATION_DISTANCE) {
+                if (distance > EzRailConfig.MAX_DISTANCE_STATION_BEGIN) {
                     //UtilsAnnounce.announce(target_cart, "Station " + station + " is releasing control of this minecart!");
                     this.cancel();
                     handledCarts.remove(target_cart);
