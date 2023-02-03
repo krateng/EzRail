@@ -39,6 +39,7 @@ public class UtilsAnnounce {
 
         if (nextStops.length > 0) {
             announce(cart, "This train will continue to " + String.join(", ",nextStops) + ".");
+            announce(cart, "Hold out a torch to continue without halt.");
         }
         else {
             announce(cart,"This train ends here.");

@@ -9,13 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Some more cleaning">
+    <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Fixed rail direction">
+      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsIndication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/SignInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/SignInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsSigns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsSigns.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674968031078</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fixed rail direction recognition">
+      <created>1675026631624</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1675026631624</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -154,6 +160,7 @@
     <MESSAGE value="K/DA, Twice and (G)I-DLE make for a good coding session" />
     <MESSAGE value="The first of many hotfixes" />
     <MESSAGE value="Some more cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some more cleaning" />
+    <MESSAGE value="Fixed rail direction recognition" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed rail direction recognition" />
   </component>
 </project>

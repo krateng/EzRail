@@ -16,7 +16,8 @@ enum CartStatus {
     INCOMING,
     ARRIVING,
     WAITING,
-    LEAVING
+    LEAVING,
+    THROUGH
 }
 
 public class CartHoldingTask extends BukkitRunnable  {
@@ -74,6 +75,13 @@ public class CartHoldingTask extends BukkitRunnable  {
             }
             // cart is in station, before primary block
             else if (cartStatus == CartStatus.ARRIVING) {
+
+                // no halt
+                if (UtilsIndication.isIndicatingNoStop(target_cart)) {
+                    cartStatus = CartStatus.THROUGH;
+                    return;
+                }
+
                 UtilsAnnounce.announce(target_cart,"Arriving at " + UtilsAnnounce.stationName(station),true);
 
                 double distance = stationControlRail.getLocation().distance(target_cart.getLocation());
@@ -127,6 +135,15 @@ public class CartHoldingTask extends BukkitRunnable  {
                     handledCarts.remove(target_cart);
                 }
 
+            }
+            else if (cartStatus == CartStatus.THROUGH) {
+                UtilsAnnounce.announce(target_cart,"Passing through " + UtilsAnnounce.stationName(station),true);
+
+                double distance = stationControlRail.getLocation().distance(target_cart.getLocation());
+                if (distance > EzRailConfig.MAX_DISTANCE_STATION_BEGIN) {
+                    this.cancel();
+                    handledCarts.remove(target_cart);
+                }
             }
 
             else {
