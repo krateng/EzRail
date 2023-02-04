@@ -17,41 +17,44 @@ enum CartStatus {
     ARRIVING,
     WAITING,
     LEAVING,
-    THROUGH
+    THROUGH,
+    ENDED
 }
 
 public class CartHoldingTask extends BukkitRunnable  {
 
-    private String station;
-    private RideableMinecart target_cart;
-    private BlockFace fromDirection;
+    private final String station;
+    private final RideableMinecart target_cart;
+    private final BlockFace fromDirection;
     private CartStatus cartStatus;
-    private Block stationControlBlock;
-    private Block stationControlRail;
+    private final Block stationControlBlock;
+    private final Block stationControlRail;
     private double defaultSpeed;
     private double secondsToDeparture;
+    private boolean terminus;
 
     public static Set<RideableMinecart> handledCarts = new HashSet<>();
 
 
-    public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock) {
+    public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock, boolean terminus) {
         this.station = station;
         this.target_cart = target_cart;
         this.fromDirection = fromDirection;
         this.stationControlBlock = stationControlBlock;
         this.stationControlRail = stationControlBlock.getRelative(0,2,0);
+        this.terminus = terminus;
         //UtilsAnnounce.announce(target_cart,"Control Rail is " + stationControlRail.toString());
 
         handledCarts.add(target_cart);
         this.cartStatus = CartStatus.INCOMING;
     }
 
-    public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock, boolean startAtStation) {
-        this(station,target_cart,fromDirection,stationControlBlock);
+    public CartHoldingTask(String station, RideableMinecart target_cart, BlockFace fromDirection, Block stationControlBlock, boolean terminus, boolean startAtStation) {
+        this(station,target_cart,fromDirection,stationControlBlock,terminus);
         if (startAtStation) {
             this.cartStatus = CartStatus.WAITING;
             this.secondsToDeparture = EzRailConfig.STATION_WAIT_TIME_NEW;
-            this.defaultSpeed = 2;
+            this.defaultSpeed = EzRailConfig.DEFAULT_BASE_SPEED;
         }
     }
 
@@ -69,7 +72,10 @@ public class CartHoldingTask extends BukkitRunnable  {
                 // just check if we're close enough for next status
                 if (stationControlRail.getLocation().distance(target_cart.getLocation()) < EzRailConfig.MAX_DISTANCE_STATION_BEGIN) {
                     cartStatus = CartStatus.ARRIVING;
-                    defaultSpeed = target_cart.getVelocity().length();
+
+                    // if we're too slow, take the min speed as base from which to calculate our slowdown speeds
+                    // we won't actually speed up to this if we're slower, it just causes the slowdown to start later
+                    defaultSpeed = Math.max(EzRailConfig.DEFAULT_BASE_SPEED,target_cart.getVelocity().length());
                     //UtilsAnnounce.announce(target_cart,"Switch to ARRIVING, noted default speed is " + defaultSpeed);
                 }
             }
@@ -77,7 +83,7 @@ public class CartHoldingTask extends BukkitRunnable  {
             else if (cartStatus == CartStatus.ARRIVING) {
 
                 // no halt
-                if (UtilsIndication.isIndicatingNoStop(target_cart)) {
+                if (UtilsIndication.isIndicatingNoStop(target_cart) && !terminus) {
                     cartStatus = CartStatus.THROUGH;
                     return;
                 }
@@ -90,7 +96,10 @@ public class CartHoldingTask extends BukkitRunnable  {
                 double newSpeed = (distance / EzRailConfig.MAX_DISTANCE_STATION_BEGIN) * defaultSpeed;
                 double relativeSpeed = newSpeed / target_cart.getVelocity().length();
                 //UtilsAnnounce.announce(target_cart, "Slowing down to " + newSpeed + "(" + relativeSpeed + ")");
-                target_cart.setVelocity(target_cart.getVelocity().multiply(relativeSpeed));
+                if (relativeSpeed < 1) {
+                    target_cart.setVelocity(target_cart.getVelocity().multiply(relativeSpeed));
+                }
+
 
                 if (target_cart.getLocation().getBlock().getX() == stationControlRail.getX() && target_cart.getLocation().getBlock().getZ() == stationControlRail.getZ()) {
                     // we have reached the central control block
@@ -102,6 +111,11 @@ public class CartHoldingTask extends BukkitRunnable  {
             }
             // cart is waiting at station
             else if (cartStatus == CartStatus.WAITING) {
+
+                if (terminus) {
+                    cartStatus = CartStatus.ENDED;
+                    return;
+                }
 
                 if (secondsToDeparture > EzRailConfig.STATION_DEPART_WARNING_TIME) {
                     UtilsAnnounce.announce(target_cart,"At " + UtilsAnnounce.stationName(station),true);
@@ -146,14 +160,19 @@ public class CartHoldingTask extends BukkitRunnable  {
                 }
             }
 
+            else if (cartStatus == CartStatus.ENDED) {
+                UtilsAnnounce.announce(target_cart,"At " + UtilsAnnounce.stationName(station) + ". End of line.",true);
+            }
+
             else {
                 this.cancel();
                 handledCarts.remove(target_cart);
             }
 
         }
-        finally {
-
+        catch (Exception e) {
+            this.cancel();
+            handledCarts.remove(target_cart);
         }
 
 

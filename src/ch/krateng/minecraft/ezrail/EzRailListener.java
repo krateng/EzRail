@@ -82,7 +82,8 @@ public class EzRailListener implements Listener {
                             HashMap<Integer,String[]> otherConnections = UtilsRails.getOtherPlatformDestinations(primarySign.getBlock(),info.station);
                             // Make announcement
                             UtilsAnnounce.announceIncoming(cart, info.station, info.platform, info.nextStops, otherConnections);
-                            BukkitTask task = new CartHoldingTask(info.station,cart,info.direction.getOppositeFace(),primarySign.getBlock())
+                            boolean terminus = (info.nextStops.length == 0);
+                            BukkitTask task = new CartHoldingTask(info.station,cart,info.direction.getOppositeFace(),primarySign.getBlock(),terminus)
                                     .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
                         }
                     }
@@ -120,12 +121,14 @@ public class EzRailListener implements Listener {
                         //UtilsAnnounce.announce(cart, "Next ctrl sign in direction " + face + " is " + sign);
                         if (sign != null) {
                             SignInfo info = UtilsSigns.extractSignInfo(sign);
-                            BukkitTask task = new CartHoldingTask(info.station,cart,face.getOppositeFace(),sign.getBlock(),true)
+                            boolean terminus = (info.nextStops.length == 0);
+                            BukkitTask task = new CartHoldingTask(info.station,cart,face.getOppositeFace(),sign.getBlock(),terminus,true)
                                     .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
 
                         } else if (sign_reverse != null) {
                             SignInfo info = UtilsSigns.extractSignInfo(sign_reverse);
-                            BukkitTask task = new CartHoldingTask(info.station,cart,face,sign_reverse.getBlock(),true)
+                            boolean terminus = (info.nextStops.length == 0);
+                            BukkitTask task = new CartHoldingTask(info.station,cart,face,sign_reverse.getBlock(),terminus,true)
                                     .runTaskTimer(plugin_instance,2, EzRailConfig.TICKS_PER_CONTROL_TICK);
                         }
 

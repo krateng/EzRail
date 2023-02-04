@@ -38,6 +38,20 @@ public class UtilsSigns {
             }
         }
 
+        while (true) {
+            try {
+                sign = (Sign) sign.getBlock().getRelative(0,-1,0).getState();
+                String[] additionalLines = sign.getLines();
+                for (String line : additionalLines) {
+                    Collections.addAll(nextStops, line.split(","));
+                }
+            }
+            catch (Exception e) {
+                break;
+            }
+        }
+
+
         nextStops.removeIf(item -> item == null || "".equals(item));
         result.nextStops = nextStops.toArray(result.nextStops);
 

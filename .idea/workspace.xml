@@ -10,11 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff2ad1a1-f4e7-4c77-a933-54d7f25e2f5d" name="Changes" comment="Fixed rail direction">
-      <change afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsIndication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/CartHoldingTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsAnnounce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/EzRailListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsSigns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/krateng/minecraft/ezrail/UtilsSigns.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +30,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
